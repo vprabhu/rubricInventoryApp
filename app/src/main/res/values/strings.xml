@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">RubricInventoryApp</string>
+    <string name="title_activity_product">ProductActivity</string>
+
+    <!-- Insert Product-->
+    <string name="info_insert_product_title">Add Product</string>
+    <string name="info_product_name">Product Name</string>
+    <string name="info_product_quantity">Product Quantity</string>
+    <string name="info_product_price">Product Price</string>
+    <string name="info_product_supplier_name">Supplier Name</string>
+    <string name="info_product_supplier_phone">Supplier Phone</string>
+    <string name="info_total_quantity">Total Qty: </string>
+    <string name="info_sold_items">Sold Items: </string>
+    <string name="info_total_price">Total Price: </string>
+    <string name="info_indiv_price">Item Price: </string>
+    <string name="button_sell_item">Sell one item</string>
+    <string name="button_select_image">Select Image from sdcard</string>
+
+    <string name="menu_delete">Delete</string>
+    <string name="info_contact_supplier">Contact supplier</string>
+    <string name="info_delete_failure_message">Cannot delete now, Please Try again later</string>
+
+    <string name="info_placeholder_qty">Qty:</string>
+    <string name="info_placeholder_sold">Sold:</string>
+    <string name="info_placeholder_price">$ </string>
+
+
+    <string name="info_error_name">Product requires a name </string>
+    <string name="info_error_quantity">Product requires a quantity</string>
+    <string name="info_error_price">Product requires price</string>
+    <string name="info_error_image">Product requires Image .Please choose an image from Sdcard</string>
+    <string name="info_error_supplier_name">Product requires supplierName</string>
+    <string name="info_error_supplier_phone">Product requires supplierPhone(10 numbers)</string>
+</resources>

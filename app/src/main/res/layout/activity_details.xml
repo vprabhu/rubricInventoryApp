@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context="com.example.rubricinventoryapp.DetailsActivity">
+
+    <ImageView
+        android:id="@+id/imageView_details_product"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/eggs"/>
+
+    <TextView
+        android:id="@+id/textView_detaisl_product_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Country Chicken Eggs "
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <TextView
+        android:id="@+id/textView_details_product_sold_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="sold items :38  "
+        android:gravity="end"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <TextView
+        android:id="@+id/textView_details_product_single_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="rs.5/each "
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_details_quantity_add"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="+"/>
+
+        <TextView
+            android:id="@+id/textView_details_product_total_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Qty : 136 "
+            android:gravity="end"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+        <Button
+            android:id="@+id/button_details_quantity_subtract"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="-"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView_product_supplier_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Supplier :"
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textView_product_supplier_details_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Bhu Pollutry farmsdsdsjndsjndksj"
+            android:maxLength="20"
+            android:ellipsize="end"
+            android:drawableLeft="@mipmap/ic_local_shipping_black"
+            android:drawableStart="@mipmap/ic_local_shipping_black"
+            android:drawablePadding="5dp"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        <TextView
+            android:id="@+id/textView_product_supplier_details_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="9538127158"
+            android:textStyle="bold"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center_vertical"
+            android:drawableLeft="@mipmap/ic_call_black_24dp"
+            android:drawableStart="@mipmap/ic_call_black_24dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>
