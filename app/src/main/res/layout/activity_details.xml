@@ -10,11 +10,11 @@
 
     <ImageView
         android:id="@+id/imageView_details_product"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_gravity="center_horizontal"
         android:scaleType="centerCrop"
-        tools:src="@drawable/eggs"/>
+        tools:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/textView_detaisl_product_name"
