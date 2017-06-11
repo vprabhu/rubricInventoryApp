@@ -78,6 +78,7 @@ public class InsertProductActivity extends AppCompatActivity {
                     // insert method to add the content values to db via content provider
                     Uri InsertedUri = getContentResolver().insert(InventoryContracts.InventoryEntry.CONTENT_URI , mContentValues);
                     Log.d(TAG, "onClick: " + InsertedUri);
+                    finish();
                 }catch (IllegalArgumentException e){
                     Toast.makeText(InsertProductActivity.this , e.getMessage() , Toast.LENGTH_SHORT).show();
                 }
