@@ -8,10 +8,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,13 +57,13 @@ public class ProductAdapter extends CursorAdapter {
         // fill the data to UI
         mNameTextView.setText(name);
         String quantityDisplay = context.getResources().getString(R.string.info_placeholder_qty)+quantity;
-        String soldItemsDisplay = context.getResources().getString(R.string.info_placeholder_qty)+soldItems;
-        String priceDisplay = context.getResources().getString(R.string.info_placeholder_qty)+price;
+        String soldItemsDisplay = context.getResources().getString(R.string.info_placeholder_sold)+soldItems;
+        String priceDisplay = context.getResources().getString(R.string.info_placeholder_price)+price;
         mQuantityTextView.setText(quantityDisplay);
         mSoldTextView.setText(soldItemsDisplay);
         mPriceTextView.setText(priceDisplay);
         loadImageFromStorage(picture , mImageTextView);
-        Button mSellButton = (Button) view.findViewById(R.id.button_row_sell_item);
+        FloatingActionButton mSellButton = (FloatingActionButton) view.findViewById(R.id.button_row_sell_item);
         mSellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

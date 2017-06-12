@@ -4,12 +4,14 @@ import android.Manifest;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,7 +27,9 @@ import android.widget.Toast;
 
 import com.example.rubricinventoryapp.data.InventoryContracts;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -157,8 +161,9 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             mProductSoldTextView.setText(soldItemsDisplay);
             // sets the product name as title
             getSupportActionBar().setTitle(name);
-            String mImagePath = data.getString(data.getColumnIndex(InventoryContracts.InventoryEntry.COLUMN_ITEM_PICTURE));
-            loadImageFromStorage(mImagePath);
+            Uri mImagePath = Uri.parse(data.getString(data.getColumnIndex(InventoryContracts.InventoryEntry.COLUMN_ITEM_PICTURE)));
+            String path = getRealPathFromUri(DetailsActivity.this , mImagePath);
+            loadImageFromStorage(path);
         }
     }
 
@@ -167,14 +172,31 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
      * @param path image path stored in sdcard
      */
     private void loadImageFromStorage(String path){
-        Uri mUri = Uri.parse(path);
-        Bitmap bitmap = null;
         try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),mUri);
-        } catch (IOException e) {
+            File f=new File(path);
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            mProductImageView.setImageBitmap(b);
+        }
+        catch (FileNotFoundException e)
+        {
             e.printStackTrace();
         }
-        mProductImageView.setImageBitmap(bitmap);
+    }
+
+
+    public static String getRealPathFromUri(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override

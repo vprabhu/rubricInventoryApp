@@ -14,5 +14,14 @@
         android:layout_height="match_parent"
         android:id="@+id/product_listView"/>
 
+    <TextView
+        android:id="@+id/textView_absence"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:visibility="visible"
+        tools:text="@string/info_absence_text" />
+
 
 </LinearLayout>

@@ -15,10 +15,20 @@
     <string name="info_indiv_price">Item Price: </string>
     <string name="button_sell_item">Sell one item</string>
     <string name="button_select_image">Select Image from sdcard</string>
+    <string name="info_placeholder_image">Placeholder Image</string>
+    <string name="info_supplier">Supplier :</string>
+    <string name="info_plus">+</string>
+    <string name="info_minus">-</string>
+    <string name="info_absence_text">Please do the following to add the products \n
+        1.Tap the icon on the Toolbar \n
+        2.Fill all fields in Add Product screen \n
+        3.Tap the + icon in the bottom of Add product
+         </string>
 
     <string name="menu_delete">Delete</string>
     <string name="info_contact_supplier">Contact supplier</string>
     <string name="info_delete_failure_message">Cannot delete now, Please Try again later</string>
+    <string name="info_need_access">Please grant permission to access the app</string>
 
     <string name="info_placeholder_qty">Qty:</string>
     <string name="info_placeholder_sold">Sold:</string>

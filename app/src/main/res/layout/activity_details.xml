@@ -14,7 +14,8 @@
         android:layout_height="300dp"
         android:layout_gravity="center_horizontal"
         android:scaleType="centerCrop"
-        tools:src="@mipmap/ic_launcher"/>
+        tools:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/info_placeholder_image" />
 
     <TextView
         android:id="@+id/textView_detaisl_product_name"
@@ -53,7 +54,7 @@
             android:id="@+id/button_details_quantity_add"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="+"/>
+            android:text="@string/info_plus"/>
 
         <TextView
             android:id="@+id/textView_details_product_total_quantity"
@@ -67,7 +68,7 @@
             android:id="@+id/button_details_quantity_subtract"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="-"/>
+            android:text="@string/info_minus"/>
 
     </LinearLayout>
 
@@ -75,7 +76,7 @@
         android:id="@+id/textView_product_supplier_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Supplier :"
+        android:text="@string/info_supplier"
         android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
@@ -92,8 +93,8 @@
             tools:text="Bhu Pollutry farmsdsdsjndsjndksj"
             android:maxLength="20"
             android:ellipsize="end"
-            android:drawableLeft="@mipmap/ic_local_shipping_black"
-            android:drawableStart="@mipmap/ic_local_shipping_black"
+            android:drawableLeft="@mipmap/ic_local_shipping_black_24dp"
+            android:drawableStart="@mipmap/ic_local_shipping_black_24dp"
             android:drawablePadding="5dp"
             android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceMedium"/>

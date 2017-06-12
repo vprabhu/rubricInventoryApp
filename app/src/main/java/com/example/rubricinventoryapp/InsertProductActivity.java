@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +39,7 @@ public class InsertProductActivity extends AppCompatActivity {
 
         // sets the page title
         getSupportActionBar().setTitle(getResources().getString(R.string.info_insert_product_title));
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         /* UI type casting */
         mProductNameEditText = (EditText) findViewById(R.id.editText_product_name);
@@ -123,5 +125,15 @@ public class InsertProductActivity extends AppCompatActivity {
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
                     .show();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
