@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -79,7 +78,6 @@ public class InsertProductActivity extends AppCompatActivity {
                 try{
                     // insert method to add the content values to db via content provider
                     Uri InsertedUri = getContentResolver().insert(InventoryContracts.InventoryEntry.CONTENT_URI , mContentValues);
-                    Log.d(TAG, "onClick: " + InsertedUri);
                     finish();
                 }catch (IllegalArgumentException e){
                     Toast.makeText(InsertProductActivity.this , e.getMessage() , Toast.LENGTH_SHORT).show();
@@ -118,11 +116,11 @@ public class InsertProductActivity extends AppCompatActivity {
                 mSelectedSdcardPath = String.valueOf(selectedImage);
                 mProductImageView.setImageBitmap(bitmap);
             } else {
-                Toast.makeText(this, "You haven't picked Image",
+                Toast.makeText(this, getResources().getString(R.string.info_image_not_picked),
                         Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+            Toast.makeText(this, getResources().getString(R.string.info_image_pick_error), Toast.LENGTH_LONG)
                     .show();
         }
     }

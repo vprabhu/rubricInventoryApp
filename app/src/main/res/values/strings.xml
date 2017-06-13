@@ -24,6 +24,11 @@
         2.Fill all fields in Add Product screen \n
         3.Tap the + icon in the bottom of Add product
          </string>
+    <string name="info_image_not_picked">You have not picked Image</string>
+    <string name="info_image_pick_error">Something went wrong</string>
+    <string name="button_order_more">Order More</string>
+    <string name="title_dialog_delete_product">Delete Product</string>
+    <string name="info_dialog_delete_product_confirmation">Are you sure you want to delete this product?</string>
 
     <string name="menu_delete">Delete</string>
     <string name="info_contact_supplier">Contact supplier</string>

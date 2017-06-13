@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="@dimen/dimens_root_padding"
     tools:context="com.example.rubricinventoryapp.DetailsActivity">
 
     <ImageView
         android:id="@+id/imageView_details_product"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="@dimen/dimens_product_details_image_height"
         android:layout_gravity="center_horizontal"
         android:scaleType="centerCrop"
         tools:src="@mipmap/ic_launcher"
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Country Chicken Eggs "
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/dimens_margin_top"
         android:gravity="center"
         android:textStyle="bold"
         android:textAllCaps="true"
@@ -37,23 +37,25 @@
         android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-    <TextView
-        android:id="@+id/textView_details_product_single_price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="rs.5/each "
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/textView_details_product_single_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="rs.5/each "
+            android:textStyle="bold"
+            android:layout_marginRight="@dimen/dimens_margin_top"
+            android:layout_marginEnd="@dimen/dimens_margin_top"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
         <Button
             android:id="@+id/button_details_quantity_add"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/dimens_product_details_quantity_button_size"
+            android:layout_height="@dimen/dimens_product_details_quantity_button_size"
             android:text="@string/info_plus"/>
 
         <TextView
@@ -66,25 +68,25 @@
 
         <Button
             android:id="@+id/button_details_quantity_subtract"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/dimens_product_details_quantity_button_size"
+            android:layout_height="@dimen/dimens_product_details_quantity_button_size"
             android:text="@string/info_minus"/>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView_product_supplier_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/info_supplier"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
+
+        <TextView
+            android:id="@+id/textView_product_supplier_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/info_supplier"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <TextView
             android:id="@+id/textView_product_supplier_details_name"
@@ -95,23 +97,16 @@
             android:ellipsize="end"
             android:drawableLeft="@mipmap/ic_local_shipping_black_24dp"
             android:drawableStart="@mipmap/ic_local_shipping_black_24dp"
-            android:drawablePadding="5dp"
+            android:drawablePadding="@dimen/dimens_drawable_padding"
             android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
-        <TextView
-            android:id="@+id/textView_product_supplier_details_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="9538127158"
-            android:textStyle="bold"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:gravity="center_vertical"
-            android:drawableLeft="@mipmap/ic_call_black_24dp"
-            android:drawableStart="@mipmap/ic_call_black_24dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
-
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_order_more"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/button_order_more"/>
 
 </LinearLayout>

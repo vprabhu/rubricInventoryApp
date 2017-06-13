@@ -6,6 +6,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
@@ -13,9 +14,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,11 +41,11 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     private TextView mProductQuantityTextView;
     private TextView mProductPriceTextView;
     private TextView mProductSupplierNameTextView;
-    private TextView mProductSupplierPhoneTextView;
     private TextView mProductSoldTextView;
     private ImageView mProductImageView;
     private int mQuantity = 0;
     private int mRowId = 0;
+    private String mSupplierPhone = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,17 +67,17 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         mProductQuantityTextView = (TextView) findViewById(R.id.textView_details_product_total_quantity);
         mProductPriceTextView = (TextView) findViewById(R.id.textView_details_product_single_price);
         mProductSupplierNameTextView = (TextView) findViewById(R.id.textView_product_supplier_details_name);
-        mProductSupplierPhoneTextView = (TextView) findViewById(R.id.textView_product_supplier_details_phone);
         mProductImageView = (ImageView) findViewById(R.id.imageView_details_product);
         mProductSoldTextView = (TextView) findViewById(R.id.textView_details_product_sold_item);
         Button mIncreaseQuantityButton = (Button) findViewById(R.id.button_details_quantity_add);
         Button mDecreaseQuantityButton = (Button) findViewById(R.id.button_details_quantity_subtract);
+        Button mOrderMoreButton = (Button) findViewById(R.id.button_order_more);
 
-        mProductSupplierPhoneTextView.setOnClickListener(new View.OnClickListener() {
+        mOrderMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // starts the gallery activity
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mProductSupplierPhoneTextView.getText().toString()));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mSupplierPhone));
                 if (ActivityCompat.checkSelfPermission(DetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
@@ -149,14 +152,13 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             String price = data.getString(data.getColumnIndex(InventoryContracts.InventoryEntry.COLUMN_ITEM_PRICE));
             int soldItems = data.getInt(data.getColumnIndex(InventoryContracts.InventoryEntry.COLUMN_ITEM_SOLD));
             String supplierName = data.getString(data.getColumnIndex(InventoryContracts.InventoryEntry.COLUMN_ITEM_SUPPLIER_NAME));
-            String supplierPhone = data.getString(data.getColumnIndex(InventoryContracts.InventoryEntry.COLUMN_ITEM_SUPPLIER_PHONE));
+            mSupplierPhone = data.getString(data.getColumnIndex(InventoryContracts.InventoryEntry.COLUMN_ITEM_SUPPLIER_PHONE));
             mProductNameTextView.setText(name);
             String totalQuantity = getResources().getString(R.string.info_total_quantity) + mQuantity;
             String indPrice = getResources().getString(R.string.info_indiv_price) + price;
             mProductPriceTextView.setText(indPrice);
             mProductQuantityTextView.setText(totalQuantity);
             mProductSupplierNameTextView.setText(supplierName);
-            mProductSupplierPhoneTextView.setText(supplierPhone);
             String soldItemsDisplay = getResources().getString(R.string.info_sold_items) + soldItems;
             mProductSoldTextView.setText(soldItemsDisplay);
             // sets the product name as title
@@ -213,16 +215,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 break;
             case R.id.menu_delete_product:
                 // deletes the current product from Database via contentprovider
-                Uri currentUri = ContentUris.withAppendedId(InventoryContracts.InventoryEntry.CONTENT_URI , mRowId);
-                int rowsDeleted = getContentResolver().delete(currentUri , null ,null);
-                if(rowsDeleted == 1){
-                    finish();
-                }else {
-                    Toast.makeText(
-                            DetailsActivity.this ,
-                            getResources().getString(R.string.info_delete_failure_message) ,
-                            Toast.LENGTH_SHORT).show();
-                }
+                showDeleteConfirmationDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -232,5 +225,37 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_details , menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void showDeleteConfirmationDialog(){
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(DetailsActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(DetailsActivity.this);
+        }
+        builder.setTitle(getResources().getString(R.string.title_dialog_delete_product))
+                .setMessage(getResources().getString(R.string.info_dialog_delete_product_confirmation))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Uri currentUri = ContentUris.withAppendedId(InventoryContracts.InventoryEntry.CONTENT_URI , mRowId);
+                        int rowsDeleted = getContentResolver().delete(currentUri , null ,null);
+                        if(rowsDeleted == 1){
+                            finish();
+                        }else {
+                            Toast.makeText(
+                                    DetailsActivity.this ,
+                                    getResources().getString(R.string.info_delete_failure_message) ,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // doing nothing as user pressed cancel button
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

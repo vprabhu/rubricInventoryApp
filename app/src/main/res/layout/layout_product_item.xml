@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:layout_marginBottom="15dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dimens_margin_top"
     android:descendantFocusability="blocksDescendants">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/dimens_product_item_size"
         android:id="@+id/imageView_row_product_image"
         android:src="@drawable/westside_store"
         android:scaleType="centerCrop"
@@ -20,10 +20,10 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="@android:color/white"
         android:alpha="0.7"
-        android:paddingLeft="15dp"
-        android:paddingStart="15dp"
-        android:paddingEnd="5dp"
-        android:paddingRight="5dp"
+        android:paddingLeft="@dimen/dimens_margin_top"
+        android:paddingStart="@dimen/dimens_margin_top"
+        android:paddingEnd="@dimen/dimens_drawable_padding"
+        android:paddingRight="@dimen/dimens_drawable_padding"
         android:orientation="vertical"
         android:layout_gravity="bottom">
 
