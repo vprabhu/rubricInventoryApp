@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,12 +11,12 @@ import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -30,9 +29,7 @@ import android.widget.Toast;
 
 import com.example.rubricinventoryapp.data.InventoryContracts;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -46,6 +43,8 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     private int mQuantity = 0;
     private int mRowId = 0;
     private String mSupplierPhone = "";
+    private Button mOrderMoreButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,15 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         mProductSoldTextView = (TextView) findViewById(R.id.textView_details_product_sold_item);
         Button mIncreaseQuantityButton = (Button) findViewById(R.id.button_details_quantity_add);
         Button mDecreaseQuantityButton = (Button) findViewById(R.id.button_details_quantity_subtract);
-        Button mOrderMoreButton = (Button) findViewById(R.id.button_order_more);
+        mOrderMoreButton = (Button) findViewById(R.id.button_order_more);
+
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                mOrderMoreButton.setVisibility(View.GONE);
+                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CALL_PHONE}, 0);
+            }
+        }
 
         mOrderMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,40 +171,13 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             // sets the product name as title
             getSupportActionBar().setTitle(name);
             Uri mImagePath = Uri.parse(data.getString(data.getColumnIndex(InventoryContracts.InventoryEntry.COLUMN_ITEM_PICTURE)));
-            String path = getRealPathFromUri(DetailsActivity.this , mImagePath);
-            loadImageFromStorage(path);
-        }
-    }
-
-    /**
-     * loads the image from sdcard to imageview
-     * @param path image path stored in sdcard
-     */
-    private void loadImageFromStorage(String path){
-        try {
-            File f=new File(path);
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            mProductImageView.setImageBitmap(b);
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-
-    public static String getRealPathFromUri(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),mImagePath);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            mProductImageView.setImageBitmap(bitmap);
         }
     }
 
@@ -257,5 +237,19 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // create a cursor adapter with cursor
+                mOrderMoreButton.setVisibility(View.VISIBLE);
+            }else {
+                Toast.makeText(DetailsActivity.this, getResources().getString(R.string.info_need_access) , Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
     }
 }

@@ -122,7 +122,6 @@ public class ProductActivity extends AppCompatActivity implements LoaderManager.
                 mAbsenceTextView.setVisibility(View.VISIBLE);
             }else {
                 Toast.makeText(ProductActivity.this, getResources().getString(R.string.info_need_access) , Toast.LENGTH_SHORT).show();
-                finish();
             }
         }
     }

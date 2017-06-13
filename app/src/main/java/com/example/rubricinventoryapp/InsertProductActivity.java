@@ -1,10 +1,11 @@
 package com.example.rubricinventoryapp;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +18,13 @@ import android.widget.Toast;
 
 import com.example.rubricinventoryapp.data.InventoryContracts;
 
+import java.io.IOException;
+
 public class InsertProductActivity extends AppCompatActivity {
 
     private static final String TAG = InsertProductActivity.class.getSimpleName();
+    private static final int GALLERY_INTENT_CALLED = 11;
+    private static final int GALLERY_KITKAT_INTENT_CALLED = 12;
     private static int RESULT_LOAD_IMG = 1;
 
     private EditText mProductNameEditText;
@@ -87,15 +92,51 @@ public class InsertProductActivity extends AppCompatActivity {
     }
 
     public void loadImagefromGallery() {
-        // Create intent to Open Image applications like Gallery, Google Photos
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        // Start the Intent
-        startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+        if (Build.VERSION.SDK_INT <19){
+            Intent intent = new Intent();
+            intent.setType("image/jpeg");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.info_select_picture)),GALLERY_INTENT_CALLED);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("image/jpeg");
+            startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
+        }
     }
 
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) return;
+        if (null == data) return;
+        Uri originalUri = null;
+        if (requestCode == GALLERY_INTENT_CALLED) {
+            originalUri = data.getData();
+        } else if (requestCode == GALLERY_KITKAT_INTENT_CALLED) {
+            originalUri = data.getData();
+            final int takeFlags = data.getFlags()
+                    & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            // Check for the freshest data.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                getContentResolver().takePersistableUriPermission(originalUri, takeFlags);
+            }
+        }
+
+        // sets the bitmap into imageview
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),originalUri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mSelectedSdcardPath = String.valueOf(originalUri);
+        mProductImageView.setImageBitmap(bitmap);
+
+    }
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
@@ -123,7 +164,7 @@ public class InsertProductActivity extends AppCompatActivity {
             Toast.makeText(this, getResources().getString(R.string.info_image_pick_error), Toast.LENGTH_LONG)
                     .show();
         }
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
